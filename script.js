@@ -326,7 +326,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('cancelTaskEditBtn').addEventListener('click', closeEditTaskModal);
 });
 
-
 // Variables to track what's being deleted
 let deleteType = null; // 'list' or 'task'
 let deleteListId = null;
@@ -375,7 +374,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('confirmDeleteBtn').addEventListener('click', performDelete);
 });
 
-
 // User Profile Dropdown functionality
 const userProfileBtn = document.getElementById('userProfileBtn');
 const userDropdown = document.getElementById('userDropdown');
@@ -399,4 +397,19 @@ logoutBtn.addEventListener('click', () => {
     // Add your logout logic here
     alert('Logged out successfully!');
     // You can redirect to login page or perform other logout actions
+});
+
+// Add event listener for logout button
+document.getElementById('logoutBtn').addEventListener('click', function() {
+    // Send request to logout endpoint
+    fetch('auth/logout.php')
+        .then(response => {
+            if (response.ok) {
+                // Redirect to login page
+                window.location.href = 'login.html';
+            }
+        })
+        .catch(error => {
+            console.error('Logout failed:', error);
+        });
 });
