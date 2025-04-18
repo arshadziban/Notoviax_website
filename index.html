@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notoviax</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        function handleGetStarted() {
+            // Check if user is logged in (you can implement your own logic here)
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (isLoggedIn) {
+                window.location.href = 'app.html';
+            } else {
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #0B0F19;
+        }
+        
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+        }
+
+        .feature-icon {
+            background: linear-gradient(135deg, #FFC107 0%, #FFD54F 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen">
+    <nav class="fixed w-full z-10 backdrop-blur-md bg-opacity-30 bg-gray-900">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex items-center justify-between">
+                <div class="text-2xl font-bold text-yellow-500">Notoviax</div>
+                <div class="space-x-4">
+                    <a href="login.html" class="text-gray-300 hover:text-yellow-500 transition-colors">Login</a>
+                    <a href="signup.html" class="px-6 py-2 bg-yellow-500 text-gray-900 rounded-full font-semibold hover:bg-yellow-600 transition-colors">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 px-6">
+        <div class="container mx-auto text-center">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6">Stay Organized.<br>Stay Ahead.</h1>
+            <p class="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">Manage tasks and ideas in a sleek, distraction-free space. Experience the perfect blend of simplicity and productivity.</p>
+            <a href="login.html" class="inline-block px-8 py-4 bg-yellow-500 text-gray-900 rounded-full text-lg font-semibold hover:bg-yellow-600 transition-colors mb-12">Start Organizing Now</a>
+            <div class="glassmorphism p-4 max-w-4xl mx-auto overflow-hidden">
+                <img src="assets/mockup.png" alt="TaskFlow Application Interface" class="w-full h-auto rounded-lg shadow-xl">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 px-6 bg-opacity-50 hero-gradient">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <!-- Feature 1 -->
+                <div class="glassmorphism p-8 text-center">
+                    <i class="fas fa-list-check text-4xl mb-6 feature-icon"></i>
+                    <h3 class="text-xl font-semibold mb-4">Multiple Lists</h3>
+                    <p class="text-gray-400">Organize tasks into different categories and projects for better management.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="glassmorphism p-8 text-center">
+                    <i class="fas fa-wand-magic-sparkles text-4xl mb-6 feature-icon"></i>
+                    <h3 class="text-xl font-semibold mb-4">Beautiful Interface</h3>
+                    <p class="text-gray-400">Enjoy a clean, modern design that makes task management a pleasure.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="glassmorphism p-8 text-center">
+                    <i class="fas fa-mobile-screen text-4xl mb-6 feature-icon"></i>
+                    <h3 class="text-xl font-semibold mb-4">Responsive Design</h3>
+                    <p class="text-gray-400">Access your tasks from any device with our mobile-friendly interface.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 px-6">
+        <div class="container mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-8">Ready to boost your productivity?</h2>
+            <a href="login.html" onclick="handleGetStarted()" class="inline-block px-8 py-4 bg-yellow-500 text-gray-900 rounded-full text-lg font-semibold hover:bg-yellow-600 transition-colors">Get Started for Free</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 px-6 border-t border-gray-800">
+        <div class="container mx-auto text-center text-gray-400">
+            <p>&copy; 2025 Notoviax. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
