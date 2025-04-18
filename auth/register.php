@@ -1,54 +1,63 @@
 <?php
-session_start();
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
+error_reporting(E_ALL);
+
 require_once '../config/db.php';
 
-// Enable error reporting
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = $_POST['email'] ?? '';
+    $password = $_POST['password'] ?? '';
+    $name = $_POST['name'] ?? '';
+
+    if (empty($email) || empty($password) || empty($name)) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'All fields are required'
+        ]);
+        exit;
+    }
+
+    // Check if email already exists before attempting registration
+    global $pdo;
     try {
-        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-        $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-        $password = $_POST['password'];
-        $confirmPassword = $_POST['confirm_password'];
-        
-        // Log registration attempt
-        error_log("Registration attempt for email: $email");
-        
-        // Basic validation
-        if (empty($email) || empty($name) || empty($password) || empty($confirmPassword)) {
-            throw new Exception('All fields are required');
+        $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+        $stmt->execute([$email]);
+        if ($stmt->fetch()) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'This email is already registered'
+            ]);
+            exit;
         }
-        
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new Exception('Invalid email format');
-        }
-        
-        if ($password !== $confirmPassword) {
-            throw new Exception('Passwords do not match');
-        }
-        
-        if (strlen($password) < 8) {
-            throw new Exception('Password must be at least 8 characters long');
-        }
-        
-        // Attempt to register the user
-        if (registerUser($email, $password, $name)) {
-            error_log("Registration successful for email: $email");
-            $_SESSION['success'] = 'Registration successful! Please log in.';
-            header('Location: ../login.html');
-            exit();
-        } else {
-            throw new Exception('Registration failed. Email might already be taken.');
-        }
-    } catch (Exception $e) {
-        error_log("Registration error: " . $e->getMessage());
-        $_SESSION['error'] = $e->getMessage();
-        header('Location: ../signup.html');
-        exit();
+    } catch(PDOException $e) {
+        error_log("Email check error: " . $e->getMessage());
+        echo json_encode([
+            'success' => false,
+            'message' => 'Database error occurred'
+        ]);
+        exit;
+    }
+
+    $result = registerUser($email, $password, $name);
+
+    if ($result) {
+        echo json_encode([
+            'success' => true,
+            'message' => 'Registration successful'
+        ]);
+    } else {
+        error_log("Registration failed for email: $email");
+        echo json_encode([
+            'success' => false,
+            'message' => 'Registration failed. Please try again later.'
+        ]);
     }
 } else {
-    header('Location: ../signup.html');
-    exit();
+    echo json_encode([
+        'success' => false,
+        'message' => 'Invalid request method'
+    ]);
 }

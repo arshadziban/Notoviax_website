@@ -181,8 +181,25 @@
                 loadingSpinner.classList.remove('hidden');
                 
                 try {
-                    // Submit the form
-                    form.submit();
+                    const formData = new FormData(form);
+                    const response = await fetch('auth/register.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        // Show success message
+                        alert('Registration successful! Redirecting to login page...');
+                        // Redirect to login page
+                        window.location.href = 'login.html';
+                    } else {
+                        // Show error message
+                        alert(data.message || 'Registration failed. Please try again.');
+                        submitButton.classList.remove('loading');
+                        loadingSpinner.classList.add('hidden');
+                    }
                 } catch (error) {
                     submitButton.classList.remove('loading');
                     loadingSpinner.classList.add('hidden');
